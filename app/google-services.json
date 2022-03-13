@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "633468345029",
+    "project_id": "clinicalappointments",
+    "storage_bucket": "clinicalappointments.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:633468345029:android:4b6b99fce3d5a34559eeac",
+        "android_client_info": {
+          "package_name": "com.sindiealexandra.clinicalappointments"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "633468345029-3s9dq5iol1pr50qfkl5ipht705thnppk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBXUFdo6fwq2Fiisxe8c-Vd8kw3RyCC36w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "633468345029-3s9dq5iol1pr50qfkl5ipht705thnppk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
