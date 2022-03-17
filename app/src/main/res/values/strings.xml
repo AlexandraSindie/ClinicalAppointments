@@ -43,5 +43,5 @@
     <string name="appointments">Appointments</string>
     <string name="surgery">General surgery</string>
     <string name="cardiology">Cardiology</string>
-    <string name="doctors">Available doctors</string>
+    <string name="available_doctors">Available Doctors</string>
 </resources>
