@@ -8,49 +8,45 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-public class MainActivity extends AppCompatActivity {
+public class AppointmentsActivity extends AppCompatActivity {
 
-    private static final String TAG = "Main Activity";
+    private static final String TAG = "Appointments Activity";
     private FirebaseAuth mAuth;
-    private FirebaseFirestore mFirestore;
-    private FirebaseUser mFirebaseUser;
     private Toolbar mToolbar;
-    private Button mAppointmentsButton;
+    private Button mCardiologyButton;
+    private Button mSurgeryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_appointments);
 
         mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
-        mFirebaseUser = mAuth.getCurrentUser();
         mToolbar = findViewById(R.id.toolbar);
-        mAppointmentsButton = findViewById(R.id.appointmentsButton);
+        mCardiologyButton = findViewById(R.id.cardiologyButton);
+        mSurgeryButton = findViewById(R.id.surgeryButton);
 
         // Configure Toolbar
         setSupportActionBar(mToolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(getString(R.string.app_name));
+            getSupportActionBar().setTitle(getString(R.string.appointments));
         }
 
-        // Get user info from database
-        if (mFirebaseUser != null) {
-            mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
-            });
-        }
+        // When user clicks the Surgery Button
+        mCardiologyButton.setOnClickListener(view -> {
+            Intent intent = new Intent(AppointmentsActivity.this, DoctorsListActivity.class);
+            intent.putExtra("SPECIALIZATION","CARDIOLOGY");
+            startActivity(intent);
+        });
 
-        // When user clicks the Appointments Button
-        mAppointmentsButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, AppointmentsActivity.class);
+        // When user clicks the Surgery Button
+        mSurgeryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(AppointmentsActivity.this, DoctorsListActivity.class);
+            intent.putExtra("SPECIALIZATION","SURGERY");
             startActivity(intent);
         });
     }
@@ -58,15 +54,19 @@ public class MainActivity extends AppCompatActivity {
     // Inflate toolbar menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+        getMenuInflater().inflate(R.menu.general_menu, menu);
         return true;
     }
-
     // When the user clicks a button in the toolbar menu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         Intent intent;
         switch (item.getItemId()) {
+            // Go to main screen
+            case R.id.mainButton:
+                intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                return true;
             // Start the Account Activity
             case R.id.accountButton:
                 intent = new Intent(this, AccountActivity.class);
@@ -81,17 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return false;
-        }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        // Check if user is signed in
-        if (mFirebaseUser == null) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            startActivity(intent);
-            finish();
         }
     }
 

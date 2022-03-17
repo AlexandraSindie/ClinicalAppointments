@@ -40,4 +40,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="main">Go to main</string>
+    <string name="appointments">Appointments</string>
+    <string name="surgery">General surgery</string>
+    <string name="cardiology">Cardiology</string>
+    <string name="doctors">Available doctors</string>
 </resources>
