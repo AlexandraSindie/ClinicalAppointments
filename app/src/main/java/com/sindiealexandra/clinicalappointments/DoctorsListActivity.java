@@ -26,6 +26,7 @@ import com.sindiealexandra.clinicalappointments.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class DoctorsListActivity extends AppCompatActivity {
 
@@ -78,9 +79,11 @@ public class DoctorsListActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 // Load users
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    if (document.getBoolean("admin") == null) {
-                        mDoctors.add(document.toObject(Doctor.class));
-                        mDoctorIDs.add(document.getId());
+                    if (document.getBoolean("admin") == null && document.getString("specialization") != null) {
+                        if (Objects.equals(document.getString("specialization").toUpperCase(), mSpecialization)) {
+                            mDoctors.add(document.toObject(Doctor.class));
+                            mDoctorIDs.add(document.getId());
+                        }
                     }
                 }
                 mDoctorRecyclerAdapter.updateDoctors(mDoctors, mDoctorIDs);

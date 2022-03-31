@@ -1,5 +1,6 @@
 package com.sindiealexandra.clinicalappointments.adapters;
 
+import android.content.Intent;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sindiealexandra.clinicalappointments.DoctorDetailsActivity;
 import com.sindiealexandra.clinicalappointments.R;
 import com.sindiealexandra.clinicalappointments.models.Doctor;
 
@@ -58,6 +60,13 @@ public class DoctorRecyclerAdapter extends RecyclerView.Adapter<DoctorRecyclerAd
 
         String phone = mDoctors.get(position).getPhone();
         mPhoneTextView.setText(phone);
+
+        holder.itemView.setOnLongClickListener(view -> {
+            Intent intent = new Intent(holder.itemView.getContext(), DoctorDetailsActivity.class);
+            intent.putExtra("DOCTOR_ID", mDoctorIDs.get(position));
+            holder.itemView.getContext().startActivity(intent);
+            return true;
+        });
     }
 
     @Override

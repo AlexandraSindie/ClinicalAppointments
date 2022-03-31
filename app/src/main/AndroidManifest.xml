@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClinicalAppointments">
         <activity
+            android:name=".DoctorDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".DoctorsListActivity"
             android:exported="false" />
         <activity
