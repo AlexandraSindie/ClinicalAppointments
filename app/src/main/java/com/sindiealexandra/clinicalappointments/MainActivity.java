@@ -1,19 +1,19 @@
 package com.sindiealexandra.clinicalappointments;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore mFirestore;
     private FirebaseUser mFirebaseUser;
     private Toolbar mToolbar;
+    private Button mSpecializationsButton;
     private Button mAppointmentsButton;
 
     @Override
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         mFirestore = FirebaseFirestore.getInstance();
         mFirebaseUser = mAuth.getCurrentUser();
         mToolbar = findViewById(R.id.toolbar);
+        mSpecializationsButton = findViewById(R.id.specializationsButton);
         mAppointmentsButton = findViewById(R.id.appointmentsButton);
 
         // Configure Toolbar
@@ -44,13 +46,28 @@ public class MainActivity extends AppCompatActivity {
 
         // Get user info from database
         if (mFirebaseUser != null) {
-            mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // If doctor
+                        if (document.getString("specialization") != null) {
+                            mSpecializationsButton.setVisibility(View.GONE);
+                        }
+                    }
+                }
             });
         }
 
-        // When user clicks the Appointments Button
+        // When user clicks the Specializations Button
         mAppointmentsButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, AppointmentsActivity.class);
+            startActivity(intent);
+        });
+
+        // When user clicks the Appointments Button
+        mSpecializationsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, SpecializationsActivity.class);
             startActivity(intent);
         });
     }

@@ -15,19 +15,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.sindiealexandra.clinicalappointments.models.Appointment;
 import com.sindiealexandra.clinicalappointments.models.Doctor;
 
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.Date;
 import java.util.Objects;
-import java.util.TimeZone;
 
-public class DoctorDetailsActivity extends AppCompatActivity {
+public class DoctorActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
@@ -37,17 +37,15 @@ public class DoctorDetailsActivity extends AppCompatActivity {
     private Button mMakeAppointmentButton;
     private String mDoctorID;
     private Doctor mDoctor;
-    private static final String TAG = "Doctor Details Activity";
+    private static final String TAG = "Doctor Activity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctor_details);
+        setContentView(R.layout.activity_doctor);
 
         mToolbar = findViewById(R.id.toolbar);
-
         mProgressBar = findViewById(R.id.progressBar);
-
         mSpecializationTextView = findViewById(R.id.specializationTextView);
         mMakeAppointmentButton = findViewById(R.id.makeAppointmentButton);
 
@@ -95,7 +93,8 @@ public class DoctorDetailsActivity extends AppCompatActivity {
                 timePicker.addOnPositiveButtonClickListener(dialog -> {
                     calendar.set(Calendar.HOUR, timePicker.getHour());
                     calendar.set(Calendar.MINUTE, timePicker.getMinute());
-                    Log.e(TAG, calendar.getTime().toString());
+                    // Send data to Firestore
+                    addAppointment(calendar.getTime());
                 });
             });
         });
@@ -114,7 +113,7 @@ public class DoctorDetailsActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             // Go to MainActivity
-            case R.id.mainPageButton:
+            case R.id.mainButton:
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;
@@ -134,5 +133,24 @@ public class DoctorDetailsActivity extends AppCompatActivity {
             default:
                 return false;
         }
+    }
+
+    // Add user to Firestore
+    public void addAppointment(final Date date) {
+        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+        // Create new appointment
+        assert firebaseUser != null;
+        Appointment appointment = new Appointment(mDoctor.getSpecialization(), date, mDoctorID, firebaseUser.getUid());
+
+        // Add user in the Users collection
+        mFirestore.collection("Appointments").document().set(appointment)
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully written!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error writing document", e));
+
+        mProgressBar.setVisibility(View.INVISIBLE);
+
+        // Start Main Activity
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
     }
 }

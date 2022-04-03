@@ -5,20 +5,19 @@
       <map>
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_account.xml" value="0.1933876811594203" />
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_account_type.xml" value="0.33" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_appointment.xml" value="0.25" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_appointments.xml" value="0.22509057971014493" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_doctor.xml" value="0.33" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_doctors.xml" value="0.22509057971014493" />
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_login.xml" value="0.18931159420289856" />
-        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_main.xml" value="0.20199275362318841" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/activity_specializations.xml" value="0.22509057971014493" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/appointments_item.xml" value="0.5" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/layout/doctors_item.xml" value="0.5" />
+        <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/menu/general_menu.xml" value="0.35104166666666664" />
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/menu/main_menu.xml" value="0.2046875" />
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/menu/settings_menu.xml" value="0.3265625" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_appointments.xml" value="0.12183383991894631" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_doctor_details.xml" value="0.176" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_doctors_list.xml" value="0.10400000000000001" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_main.xml" value="0.2" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/doctors_item.xml" value="0.176" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/users_item.xml" value="0.1" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/menu/account_menu.xml" value="0.14629629629629629" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/menu/general_menu.xml" value="0.14629629629629629" />
-        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/menu/main_menu.xml" value="0.14629629629629629" />
       </map>
     </option>
   </component>

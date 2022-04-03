@@ -180,7 +180,7 @@ public class AccountActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             // Go to MainActivity
-            case R.id.mainPageButton:
+            case R.id.mainButton:
                 intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 return true;

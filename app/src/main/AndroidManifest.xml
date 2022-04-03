@@ -10,13 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClinicalAppointments">
         <activity
-            android:name=".DoctorDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".DoctorsListActivity"
+            android:name=".AppointmentActivity"
             android:exported="false" />
         <activity
             android:name=".AppointmentsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DoctorsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SpecializationsActivity"
             android:exported="false" />
         <activity
             android:name=".AccountActivity"

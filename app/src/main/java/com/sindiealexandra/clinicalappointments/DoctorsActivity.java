@@ -1,11 +1,5 @@
 package com.sindiealexandra.clinicalappointments;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,23 +8,25 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.sindiealexandra.clinicalappointments.adapters.DoctorRecyclerAdapter;
 import com.sindiealexandra.clinicalappointments.models.Doctor;
-import com.sindiealexandra.clinicalappointments.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class DoctorsListActivity extends AppCompatActivity {
+public class DoctorsActivity extends AppCompatActivity {
 
-    private static final String TAG = "Doctors List Activity";
+    private static final String TAG = "Doctors Activity";
     private FirebaseAuth mAuth;
     private FirebaseFirestore mFirestore;
     private Toolbar mToolbar;
@@ -44,7 +40,7 @@ public class DoctorsListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doctors_list);
+        setContentView(R.layout.activity_doctors);
 
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
@@ -80,7 +76,7 @@ public class DoctorsListActivity extends AppCompatActivity {
                 // Load users
                 for (QueryDocumentSnapshot document : task.getResult()) {
                     if (document.getBoolean("admin") == null && document.getString("specialization") != null) {
-                        if (Objects.equals(document.getString("specialization").toUpperCase(), mSpecialization)) {
+                        if (Objects.equals(Objects.requireNonNull(document.getString("specialization")).toUpperCase(), mSpecialization)) {
                             mDoctors.add(document.toObject(Doctor.class));
                             mDoctorIDs.add(document.getId());
                         }

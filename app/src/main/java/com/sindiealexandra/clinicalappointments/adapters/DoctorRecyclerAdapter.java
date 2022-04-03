@@ -1,28 +1,21 @@
 package com.sindiealexandra.clinicalappointments.adapters;
 
 import android.content.Intent;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.sindiealexandra.clinicalappointments.DoctorDetailsActivity;
+import com.sindiealexandra.clinicalappointments.DoctorActivity;
 import com.sindiealexandra.clinicalappointments.R;
 import com.sindiealexandra.clinicalappointments.models.Doctor;
 
-import java.util.Date;
 import java.util.List;
 
 public class DoctorRecyclerAdapter extends RecyclerView.Adapter<DoctorRecyclerAdapter.ViewHolder> {
@@ -62,7 +55,7 @@ public class DoctorRecyclerAdapter extends RecyclerView.Adapter<DoctorRecyclerAd
         mPhoneTextView.setText(phone);
 
         holder.itemView.setOnLongClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), DoctorDetailsActivity.class);
+            Intent intent = new Intent(holder.itemView.getContext(), DoctorActivity.class);
             intent.putExtra("DOCTOR_ID", mDoctorIDs.get(position));
             holder.itemView.getContext().startActivity(intent);
             return true;
@@ -75,7 +68,6 @@ public class DoctorRecyclerAdapter extends RecyclerView.Adapter<DoctorRecyclerAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
         public ViewHolder(@NonNull final View itemView) {
             super(itemView);
 
