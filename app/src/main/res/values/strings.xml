@@ -46,4 +46,7 @@
     <string name="available_doctors">Available Doctors</string>
     <string name="makeAppointment">Make an appointment</string>
     <string name="specializations">Specializations</string>
+    <string name="edit">Edit</string>
+    <string name="cancel">Cancel</string>
+    <string name="appointment_edited">Appointment edited successfully</string>
 </resources>

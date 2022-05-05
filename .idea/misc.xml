@@ -18,6 +18,9 @@
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/menu/general_menu.xml" value="0.35104166666666664" />
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/menu/main_menu.xml" value="0.2046875" />
         <entry key="..\:/Repos/ClinicalAppointments/app/src/main/res/menu/settings_menu.xml" value="0.3265625" />
+        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_account.xml" value="0.13697916666666668" />
+        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_appointment.xml" value="0.4" />
+        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_doctor.xml" value="0.13697916666666668" />
       </map>
     </option>
   </component>
