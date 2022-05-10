@@ -161,7 +161,7 @@ public class AccountActivity extends AppCompatActivity {
 
             AlertDialog.Builder builder = new MaterialAlertDialogBuilder(AccountActivity.this);
             builder.setTitle(getString(R.string.delete_account_message_title));
-            builder.setMessage(getString(R.string.delete_account_message)).setPositiveButton(getString(R.string.yes), dialogClickListener)
+            builder.setMessage(getString(R.string.delete_message)).setPositiveButton(getString(R.string.yes), dialogClickListener)
                     .setNegativeButton(getString(R.string.no), dialogClickListener).show();
         });
 

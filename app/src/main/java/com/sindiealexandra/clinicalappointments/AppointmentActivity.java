@@ -1,5 +1,6 @@
 package com.sindiealexandra.clinicalappointments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,10 +16,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.datepicker.MaterialDatePicker;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.auth.FirebaseAuth;
@@ -126,9 +131,23 @@ public class AppointmentActivity extends AppCompatActivity {
 
         // When user clicks the Cancel Button
         mCancelAppointmentButton.setOnClickListener(view -> {
-//            Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
-//            intent.putExtra("SPECIALIZATION","CARDIOLOGY");
-//            startActivity(intent);
+            DialogInterface.OnClickListener dialogClickListener = (dialog, option) -> {
+                switch (option) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        // Yes button clicked
+                        cancelAppointment();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        // No button clicked
+                        break;
+                }
+            };
+
+            AlertDialog.Builder builder = new MaterialAlertDialogBuilder(AppointmentActivity.this);
+            builder.setTitle(getString(R.string.cancel_appointment_message_title));
+            builder.setMessage(getString(R.string.delete_message)).setPositiveButton(getString(R.string.yes), dialogClickListener)
+                    .setNegativeButton(getString(R.string.no), dialogClickListener).show();
         });
     }
 
@@ -167,7 +186,7 @@ public class AppointmentActivity extends AppCompatActivity {
         }
     }
 
-    // Add user to Firestore
+    // Edit appointment in Firestore
     public void editAppointment(final Date date) {
         FirebaseUser firebaseUser = mAuth.getCurrentUser();
         // Create new appointment
@@ -182,6 +201,19 @@ public class AppointmentActivity extends AppCompatActivity {
                 })
                 .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
 
+        mProgressBar.setVisibility(View.INVISIBLE);
+
+        // Start Main Activity
+        Intent intent = new Intent(getApplicationContext(), AppointmentsActivity.class);
+        startActivity(intent);
+    }
+
+    // Cancel appointment in Firestore
+    public void cancelAppointment() {
+        mFirestore.collection("Appointments").document(mAppointmentID)
+                .delete()
+                .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully deleted!"))
+                .addOnFailureListener(e -> Log.w(TAG, "Error deleting document", e));
         mProgressBar.setVisibility(View.INVISIBLE);
 
         // Start Main Activity

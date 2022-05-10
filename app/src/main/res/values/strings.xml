@@ -32,7 +32,7 @@
     <string name="failed_registration">Failed registration</string>
     <string name="delete_account">Delete account</string>
     <string name="delete_account_message_title">Are you sure you want to delete your account?</string>
-    <string name="delete_account_message">The action cannot be cancelled</string>
+    <string name="delete_message">The action cannot be cancelled</string>
     <string name="update_failed">Update failed</string>
     <string name="account_settings">Your Account</string>
     <string name="logout">Logout</string>
@@ -49,4 +49,5 @@
     <string name="edit">Edit</string>
     <string name="cancel">Cancel</string>
     <string name="appointment_edited">Appointment edited successfully</string>
+    <string name="cancel_appointment_message_title">Are you sure you want to cancel this appointment?</string>
 </resources>
