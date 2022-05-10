@@ -50,4 +50,7 @@
     <string name="cancel">Cancel</string>
     <string name="appointment_edited">Appointment edited successfully</string>
     <string name="cancel_appointment_message_title">Are you sure you want to cancel this appointment?</string>
+    <string name="uploadPDF">Upload results</string>
+    <string name="downloadPDF">Download results</string>
+    <string name="results_not_ready">Results not ready. Try again later.</string>
 </resources>

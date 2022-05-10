@@ -98,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if (document != null) {
                                             if (document.exists()) {
                                                 // Check if user is enabled
-                                                boolean enabled = document.getBoolean("enabled");
+                                                boolean enabled = Boolean.TRUE.equals(document.getBoolean("enabled"));
                                                 if (!enabled) {
                                                     Toast.makeText(getApplicationContext(), getString(R.string.account_not_enabled),
                                                             Toast.LENGTH_SHORT).show();

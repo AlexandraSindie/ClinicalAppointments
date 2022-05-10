@@ -21,17 +21,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sindiealexandra.clinicalappointments.models.Doctor;
 import com.sindiealexandra.clinicalappointments.models.Patient;
@@ -198,16 +193,13 @@ public class AccountActivity extends AppCompatActivity {
 
     public void setUserSpecialization() {
         // Get user info from database
-        mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot != null) {
-                    mSpecialization = documentSnapshot.getString("specialization");
-                    // If doctor show specialization field
-                    if(mSpecialization != null) {
-                        mSpecializationTextInputLayout.setVisibility(View.VISIBLE);
-                        mSpecializationEditText.setVisibility(View.VISIBLE);
-                    }
+        mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot != null) {
+                mSpecialization = documentSnapshot.getString("specialization");
+                // If doctor show specialization field
+                if(mSpecialization != null) {
+                    mSpecializationTextInputLayout.setVisibility(View.VISIBLE);
+                    mSpecializationEditText.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -217,22 +209,19 @@ public class AccountActivity extends AppCompatActivity {
     public void fillForm() {
         // Get user info from database
         mFirebaseUser = mAuth.getCurrentUser();
-        mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot != null) {
-                    mFirstNameEditText.setText(documentSnapshot.getString("firstName"));
-                    mLastNameEditText.setText(documentSnapshot.getString("lastName"));
-                    mPhoneEditText.setText(documentSnapshot.getString("phone"));
-                    if(mSpecialization != null) {
-                        mSpecializationEditText.setText(documentSnapshot.getString("specialization"));
-                    }
-                    mIsEnabled = documentSnapshot.getBoolean("enabled");
+        mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot != null) {
+                mFirstNameEditText.setText(documentSnapshot.getString("firstName"));
+                mLastNameEditText.setText(documentSnapshot.getString("lastName"));
+                mPhoneEditText.setText(documentSnapshot.getString("phone"));
+                if(mSpecialization != null) {
+                    mSpecializationEditText.setText(documentSnapshot.getString("specialization"));
                 }
-
-                mProgressBar.setVisibility(View.INVISIBLE);
-                mSaveButton.setEnabled(true);
+                mIsEnabled = Boolean.TRUE.equals(documentSnapshot.getBoolean("enabled"));
             }
+
+            mProgressBar.setVisibility(View.INVISIBLE);
+            mSaveButton.setEnabled(true);
         });
 
         // Get email from Authentication
@@ -264,32 +253,26 @@ public class AccountActivity extends AppCompatActivity {
 
             // Re-authenticate user
             mFirebaseUser.reauthenticate(credential)
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "User re-authenticated.");
-                            // Update email in Authentication
-                            mFirebaseUser.updateEmail(email)
-                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            if (task.isSuccessful()) {
-                                                Log.d(TAG, "User email address updated.");
-                                                // Update shared preferences
-                                                mPreferences.edit().putString(getString(R.string.user_email), email).apply();
-                                            } else {
-                                                Log.w(TAG, "User email address not updated.");
-                                                try {
-                                                    throw Objects.requireNonNull(task.getException());
-                                                } catch (Exception e) {
-                                                    // Display a message to the user.
-                                                    Toast.makeText(getApplicationContext(), getString(R.string.update_failed),
-                                                            Toast.LENGTH_SHORT).show();
-                                                }
-                                            }
+                    .addOnCompleteListener(task -> {
+                        Log.d(TAG, "User re-authenticated.");
+                        // Update email in Authentication
+                        mFirebaseUser.updateEmail(email)
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        Log.d(TAG, "User email address updated.");
+                                        // Update shared preferences
+                                        mPreferences.edit().putString(getString(R.string.user_email), email).apply();
+                                    } else {
+                                        Log.w(TAG, "User email address not updated.");
+                                        try {
+                                            throw Objects.requireNonNull(task1.getException());
+                                        } catch (Exception e) {
+                                            // Display a message to the user.
+                                            Toast.makeText(getApplicationContext(), getString(R.string.update_failed),
+                                                    Toast.LENGTH_SHORT).show();
                                         }
-                                    });
-                        }
+                                    }
+                                });
                     });
         }
 
@@ -306,12 +289,7 @@ public class AccountActivity extends AppCompatActivity {
         mFirestore.collection("Users").document(mFirebaseUser.getUid())
                 .delete()
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "DocumentSnapshot successfully deleted!"))
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w(TAG, "Error deleting document", e);
-                    }
-                });
+                .addOnFailureListener(e -> Log.w(TAG, "Error deleting document", e));
 
         // Delete user from Authentication
         mFirebaseUser = mAuth.getCurrentUser();

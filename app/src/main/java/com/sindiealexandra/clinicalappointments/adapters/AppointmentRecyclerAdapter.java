@@ -1,6 +1,7 @@
 package com.sindiealexandra.clinicalappointments.adapters;
 
 import android.content.Intent;
+import android.os.Build;
 import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +48,7 @@ public class AppointmentRecyclerAdapter extends RecyclerView.Adapter<Appointment
     }
 
     // Fill card with data from Firestore
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     public void onBindViewHolder(@NonNull final AppointmentRecyclerAdapter.ViewHolder holder, final int position) {
         String specialization = mAppointments.get(position).getSpecialization();
