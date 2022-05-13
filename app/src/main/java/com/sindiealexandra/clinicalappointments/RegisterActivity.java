@@ -9,6 +9,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -50,6 +51,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mConfirmPasswordEditText;
     private Button mRegisterButton;
     private Button mLoginRedirectButton;
+    private CheckBox mVisuallyImpairedCheckBox;
     private boolean mIsDoctor = false;
 
     @Override
@@ -85,6 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
         mConfirmPasswordEditText = findViewById(R.id.confirmPasswordEditText);
         mRegisterButton = findViewById(R.id.registerButton);
         mLoginRedirectButton = findViewById(R.id.loginRedirectButton);
+        mVisuallyImpairedCheckBox = findViewById(R.id.visuallyImpairedCheckBox);
 
         // If doctor show specialization field
         if(mIsDoctor) {
@@ -102,6 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
             final String specialization = mSpecializationEditText.getText().toString().trim();
             final String password = mPasswordEditText.getText().toString().trim();
             final String confirmPassword = mConfirmPasswordEditText.getText().toString().trim();
+            final boolean isVisuallyImpaired = mVisuallyImpairedCheckBox.isChecked();
 
             // Clear errors
             mFirstNameTextInputLayout.setError(null);
@@ -149,7 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign up success
                             if (task.isSuccessful()) {
                                 // Add user to database
-                                addUser(firstName, lastName, phone, specialization);
+                                addUser(firstName, lastName, phone, specialization, isVisuallyImpaired);
                                 setLoginCredentials(email, password);
                             } else {
                                 try {
@@ -185,11 +189,11 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     // Add user to Firestore
-    public void addUser(final String firstName, final String lastName, final String phone, final String specialization) {
+    public void addUser(final String firstName, final String lastName, final String phone, final String specialization, boolean isVisuallyImpaired) {
         // Create new user
         User user;
         if(!mIsDoctor) {
-            user = new Patient(firstName, lastName, phone);
+            user = new Patient(firstName, lastName, phone, isVisuallyImpaired);
         } else {
             user = new Doctor(firstName, lastName, phone, specialization);
         }

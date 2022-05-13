@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -56,6 +57,8 @@ public class AccountActivity extends AppCompatActivity {
     private Button mDeleteButton;
     private boolean mIsEnabled = false;
     private static String mSpecialization = null;
+    private CheckBox mVisuallyImpairedCheckBox;
+    private Boolean mIsVisuallyImpaired = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,7 @@ public class AccountActivity extends AppCompatActivity {
         mSpecializationEditText = findViewById(R.id.specializationEditText);
         mSaveButton = findViewById(R.id.saveButton);
         mDeleteButton = findViewById(R.id.deleteButton);
+        mVisuallyImpairedCheckBox = findViewById(R.id.visuallyImpairedCheckBox);
 
         // Set user specialization from Firestore
         setUserSpecialization();
@@ -102,6 +106,7 @@ public class AccountActivity extends AppCompatActivity {
             final String phone = mPhoneEditText.getText().toString().trim();
             final String email = mEmailEditText.getText().toString().trim();
             final String specialization = mSpecializationEditText.getText().toString().trim();
+            final boolean isVisuallyImpaired = mVisuallyImpairedCheckBox.isChecked();
 
             // Clear errors
             mFirstNameTextInputLayout.setError(null);
@@ -136,7 +141,7 @@ public class AccountActivity extends AppCompatActivity {
                 mProgressBar.setVisibility(View.VISIBLE);
 
                 // Change user info in database
-                modifyUser(firstName, lastName, phone, email, specialization);
+                modifyUser(firstName, lastName, phone, email, specialization, isVisuallyImpaired);
             }
         });
 
@@ -217,6 +222,8 @@ public class AccountActivity extends AppCompatActivity {
                 if(mSpecialization != null) {
                     mSpecializationEditText.setText(documentSnapshot.getString("specialization"));
                 }
+                mIsVisuallyImpaired = documentSnapshot.getBoolean("visuallyImpaired");
+                mVisuallyImpairedCheckBox.setChecked(mIsVisuallyImpaired);
                 mIsEnabled = Boolean.TRUE.equals(documentSnapshot.getBoolean("enabled"));
             }
 
@@ -229,11 +236,11 @@ public class AccountActivity extends AppCompatActivity {
     }
 
     // Update user in Authentication / Firestore
-    public void modifyUser(final String firstName, final String lastName, final String phone, final String email, final String specialization) {
+    public void modifyUser(final String firstName, final String lastName, final String phone, final String email, final String specialization, boolean isVisuallyImpaired) {
         // Create new user object
         User user;
         if(mSpecialization == null) {
-            user = new Patient(firstName, lastName, phone);
+            user = new Patient(firstName, lastName, phone, isVisuallyImpaired);
         } else {
             user = new Doctor(firstName, lastName, phone, specialization);
         }

@@ -1,16 +1,21 @@
 package com.sindiealexandra.clinicalappointments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Magnifier;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -19,6 +24,7 @@ import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.sindiealexandra.clinicalappointments.models.Appointment;
 import com.sindiealexandra.clinicalappointments.models.Doctor;
@@ -37,8 +43,10 @@ public class DoctorActivity extends AppCompatActivity {
     private Button mMakeAppointmentButton;
     private String mDoctorID;
     private Doctor mDoctor;
+    private FirebaseUser mFirebaseUser;
     private static final String TAG = "Doctor Activity";
 
+    @RequiresApi(api = Build.VERSION_CODES.P)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +62,44 @@ public class DoctorActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
+        mFirebaseUser = mAuth.getCurrentUser();
+
+        // Get user info from database
+        if (mFirebaseUser != null) {
+            mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // If visually impaired
+                        if (Boolean.TRUE.equals(document.getBoolean("visuallyImpaired"))) {
+                            // Enable magnifier
+                            Magnifier magnifier = new Magnifier(mSpecializationTextView);
+                            mSpecializationTextView.setOnTouchListener((v, event) -> {
+                                switch (event.getActionMasked()) {
+                                    case MotionEvent.ACTION_DOWN:
+                                        // Fall through.
+                                    case MotionEvent.ACTION_MOVE: {
+                                        final int[] viewPosition = new int[2];
+                                        v.getLocationOnScreen(viewPosition);
+                                        magnifier.show(event.getRawX() - viewPosition[0],
+                                                event.getRawY() - viewPosition[1]);
+                                        break;
+                                    }
+                                    case MotionEvent.ACTION_CANCEL:
+                                        // Fall through.
+                                    case MotionEvent.ACTION_UP: {
+                                        magnifier.dismiss();
+                                    }
+                                }
+                                return true;
+                            });
+                        }
+                    }
+                }
+            });
+        }
+
+
 
         // Load Doctor from Firestore
         mFirestore.collection("Users").document(mDoctorID).get().addOnSuccessListener(documentSnapshot -> {
@@ -137,10 +183,9 @@ public class DoctorActivity extends AppCompatActivity {
 
     // Add user to Firestore
     public void addAppointment(final Date date) {
-        FirebaseUser firebaseUser = mAuth.getCurrentUser();
+
         // Create new appointment
-        assert firebaseUser != null;
-        Appointment appointment = new Appointment(mDoctor.getSpecialization(), date, mDoctorID, firebaseUser.getUid());
+        Appointment appointment = new Appointment(mDoctor.getSpecialization(), date, mDoctorID, mFirebaseUser.getUid());
 
         // Add user in the Users collection
         mFirestore.collection("Appointments").document().set(appointment)
