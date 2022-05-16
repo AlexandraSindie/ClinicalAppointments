@@ -56,4 +56,9 @@
     <string name="visually_impaired">Visually Impaired</string>
     <string name="users">Users</string>
     <string name="reports">Reports</string>
+    <string name="visually_impaired_ophthalmology_message">When registering in the application you selected that you are visually impaired. In this case, we recommend a consultation with one of our specialist eye doctors.</string>
+    <string name="visually_impaired_magnifier_message">To make it easier for you to use the app, just hold down on the texts you want to enlarge.</string>
+    <string name="disable_magnifier_message">If you want to disable this setting, you can always do so from your preferences.</string>
+    <string name="Ophthalmology">Ophthalmology</string>
+    <string name="redirect_to_main">Skip and go to main</string>
 </resources>

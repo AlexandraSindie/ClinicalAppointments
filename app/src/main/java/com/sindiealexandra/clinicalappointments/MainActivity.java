@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private Button mSpecializationsButton;
     private Button mAppointmentsButton;
+    private Button mReportsButton;
     private Button mUsersButton;
 
     @Override
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mSpecializationsButton = findViewById(R.id.specializationsButton);
         mAppointmentsButton = findViewById(R.id.appointmentsButton);
+        mReportsButton = findViewById(R.id.reportsButton);
         mUsersButton = findViewById(R.id.usersButton);
 
         // Configure Toolbar
@@ -73,6 +75,12 @@ public class MainActivity extends AppCompatActivity {
         // When user clicks the Appointments Button
         mSpecializationsButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, SpecializationsActivity.class);
+            startActivity(intent);
+        });
+
+        // When user clicks the Reports Button
+        mReportsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, VisuallyImpairedActivity.class);
             startActivity(intent);
         });
 

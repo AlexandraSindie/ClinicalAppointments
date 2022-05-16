@@ -93,6 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(mIsDoctor) {
             mSpecializationTextInputLayout.setVisibility(View.VISIBLE);
             mSpecializationEditText.setVisibility(View.VISIBLE);
+            mVisuallyImpairedCheckBox.setVisibility(View.GONE);
         }
 
         // When the user clicks the Register button
@@ -208,6 +209,14 @@ public class RegisterActivity extends AppCompatActivity {
 
         mProgressBar.setVisibility(View.INVISIBLE);
 
+        // Start Visually Impaired Activity
+        if(!mIsDoctor) {
+            Patient patient = (Patient)user;
+            if(patient.isVisuallyImpaired()) {
+                Intent intent = new Intent(getApplicationContext(), VisuallyImpairedActivity.class);
+                startActivity(intent);
+            }
+        }
         // Start Main Activity
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);

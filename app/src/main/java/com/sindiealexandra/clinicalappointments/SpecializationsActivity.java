@@ -19,6 +19,7 @@ public class SpecializationsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private Button mCardiologyButton;
     private Button mSurgeryButton;
+    private Button mOphthalmologyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class SpecializationsActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mCardiologyButton = findViewById(R.id.cardiologyButton);
         mSurgeryButton = findViewById(R.id.surgeryButton);
+        mOphthalmologyButton = findViewById(R.id.ophthalmologyButton);
 
         // Configure Toolbar
         setSupportActionBar(mToolbar);
@@ -47,6 +49,13 @@ public class SpecializationsActivity extends AppCompatActivity {
         mSurgeryButton.setOnClickListener(view -> {
             Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
             intent.putExtra("SPECIALIZATION","GENERAL SURGERY");
+            startActivity(intent);
+        });
+
+        // When user clicks the Ophthalmologist Button
+        mOphthalmologyButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
+            intent.putExtra("SPECIALIZATION","OPHTHALMOLOGY");
             startActivity(intent);
         });
     }
