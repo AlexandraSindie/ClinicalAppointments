@@ -47,6 +47,7 @@ public class AppointmentsActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mFirestore = FirebaseFirestore.getInstance();
+        mFirebaseUser = mAuth.getCurrentUser();
         mToolbar = findViewById(R.id.toolbar);
         mProgressBar = findViewById(R.id.progressBar);
         mRecyclerView = findViewById(R.id.recyclerView);
@@ -69,33 +70,30 @@ public class AppointmentsActivity extends AppCompatActivity {
             getSupportActionBar().setTitle(getString(R.string.appointments));
         }
 
-        mAppointments = new ArrayList<>();
-        mAppointmentIDs = new ArrayList<>();
-        mFirebaseUser = mAuth.getCurrentUser();
-
         mFirestore.collection("Users").document(mFirebaseUser.getUid()).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 DocumentSnapshot document = task.getResult();
                 if (document.exists()) {
-                    // If doctor
-                    if (document.getString("specialization") != null) {
-                        mFirestore.collection("Appointments").whereEqualTo("doctorId", mFirebaseUser.getUid()).get().addOnCompleteListener(patientTask -> {
-                            if (patientTask.isSuccessful()) {
+                    // If admin
+                    if (document.getDate("dateOfBirth") != null) {
+                        mFirestore.collection("Appointments").get().addOnCompleteListener(adminTask -> {
+                            if (task.isSuccessful()) {
                                 // Load appointments
-                                for (QueryDocumentSnapshot appointmentDocument : patientTask.getResult()) {
+                                for (QueryDocumentSnapshot appointmentDocument : adminTask.getResult()) {
                                     Appointment appointment = appointmentDocument.toObject(Appointment.class);
                                     mAppointments.add(appointment);
                                     mAppointmentIDs.add(appointmentDocument.getId());
                                 }
-                                mAppointmentRecyclerAdapter.updateAppointments(mAppointments, mAppointmentIDs, "DOCTOR");
+                                mAppointmentRecyclerAdapter.updateAppointments(mAppointments, mAppointmentIDs, "ADMIN");
                                 mProgressBar.setVisibility(View.INVISIBLE);
                             } else {
-                                Log.d(TAG, "Error getting documents: ", patientTask.getException());
+                                Log.d(TAG, "Error getting documents: ", adminTask.getException());
                             }
                         });
-                        // If patient
-                    } else {
-                        mFirestore.collection("Appointments").whereEqualTo("patientId", mFirebaseUser.getUid()).get().addOnCompleteListener(doctorTask -> {
+                    }
+                    // If doctor
+                    else if (document.getString("specialization") != null) {
+                        mFirestore.collection("Appointments").whereEqualTo("doctorId", mFirebaseUser.getUid()).get().addOnCompleteListener(doctorTask -> {
                             if (doctorTask.isSuccessful()) {
                                 // Load appointments
                                 for (QueryDocumentSnapshot appointmentDocument : doctorTask.getResult()) {
@@ -103,10 +101,26 @@ public class AppointmentsActivity extends AppCompatActivity {
                                     mAppointments.add(appointment);
                                     mAppointmentIDs.add(appointmentDocument.getId());
                                 }
-                                mAppointmentRecyclerAdapter.updateAppointments(mAppointments, mAppointmentIDs, "PATIENT");
+                                mAppointmentRecyclerAdapter.updateAppointments(mAppointments, mAppointmentIDs, "DOCTOR");
                                 mProgressBar.setVisibility(View.INVISIBLE);
                             } else {
                                 Log.d(TAG, "Error getting documents: ", doctorTask.getException());
+                            }
+                        });
+                        // If patient
+                    } else {
+                        mFirestore.collection("Appointments").whereEqualTo("patientId", mFirebaseUser.getUid()).get().addOnCompleteListener(patientTask -> {
+                            if (patientTask.isSuccessful()) {
+                                // Load appointments
+                                for (QueryDocumentSnapshot appointmentDocument : patientTask.getResult()) {
+                                    Appointment appointment = appointmentDocument.toObject(Appointment.class);
+                                    mAppointments.add(appointment);
+                                    mAppointmentIDs.add(appointmentDocument.getId());
+                                }
+                                mAppointmentRecyclerAdapter.updateAppointments(mAppointments, mAppointmentIDs, "PATIENT");
+                                mProgressBar.setVisibility(View.INVISIBLE);
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", patientTask.getException());
                             }
                         });
                     }

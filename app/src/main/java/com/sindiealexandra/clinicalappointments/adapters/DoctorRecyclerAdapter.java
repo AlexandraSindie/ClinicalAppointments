@@ -30,7 +30,7 @@ public class DoctorRecyclerAdapter extends RecyclerView.Adapter<DoctorRecyclerAd
     private List<Doctor> mDoctors;
     private List<String> mDoctorIDs;
 
-    private static final String TAG = "User Recycler Adapter";
+    private static final String TAG = "Doctor Recycler Adapter";
 
     public DoctorRecyclerAdapter(List<Doctor> doctors) {
         mDoctors = doctors;

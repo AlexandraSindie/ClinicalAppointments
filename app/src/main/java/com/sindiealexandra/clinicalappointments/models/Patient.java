@@ -30,7 +30,6 @@ public class Patient extends User {
         isVisuallyImpaired = visuallyImpaired;
     }
 
-
     @Override
     public String toString() {
         return "Patient{" +

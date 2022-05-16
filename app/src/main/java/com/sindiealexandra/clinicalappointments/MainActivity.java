@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private Button mSpecializationsButton;
     private Button mAppointmentsButton;
+    private Button mUsersButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         mToolbar = findViewById(R.id.toolbar);
         mSpecializationsButton = findViewById(R.id.specializationsButton);
         mAppointmentsButton = findViewById(R.id.appointmentsButton);
+        mUsersButton = findViewById(R.id.usersButton);
 
         // Configure Toolbar
         setSupportActionBar(mToolbar);
@@ -54,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                         if (document.getString("specialization") != null) {
                             mSpecializationsButton.setVisibility(View.GONE);
                         }
+                        if (document.getDate("dateOfBirth") == null) {
+                            mUsersButton.setVisibility(View.GONE);
+                        }
                     }
                 }
             });
@@ -68,6 +73,12 @@ public class MainActivity extends AppCompatActivity {
         // When user clicks the Appointments Button
         mSpecializationsButton.setOnClickListener(view -> {
             Intent intent = new Intent(MainActivity.this, SpecializationsActivity.class);
+            startActivity(intent);
+        });
+
+        // When user clicks the Users Button
+        mUsersButton.setOnClickListener(view -> {
+            Intent intent = new Intent(MainActivity.this, UsersActivity.class);
             startActivity(intent);
         });
     }

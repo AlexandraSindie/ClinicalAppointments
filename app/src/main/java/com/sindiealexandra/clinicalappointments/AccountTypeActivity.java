@@ -21,13 +21,10 @@ public class AccountTypeActivity extends AppCompatActivity {
         mDoctorButton = findViewById(R.id.doctorButton);
 
         // When user clicks the Patient button
-        mPatientButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                intent.putExtra("ACCOUNT_TYPE", "PATIENT");
-                startActivity(intent);
-            }
+        mPatientButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+            intent.putExtra("ACCOUNT_TYPE", "PATIENT");
+            startActivity(intent);
         });
 
         // When user clicks the Doctor button

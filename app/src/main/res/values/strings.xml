@@ -54,4 +54,6 @@
     <string name="downloadPDF">Download results</string>
     <string name="results_not_ready">Results not ready. Try again later.</string>
     <string name="visually_impaired">Visually Impaired</string>
+    <string name="users">Users</string>
+    <string name="reports">Reports</string>
 </resources>

@@ -1,6 +1,5 @@
 package com.sindiealexandra.clinicalappointments;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
