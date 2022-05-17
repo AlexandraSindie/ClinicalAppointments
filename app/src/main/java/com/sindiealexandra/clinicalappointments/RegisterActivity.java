@@ -209,17 +209,22 @@ public class RegisterActivity extends AppCompatActivity {
 
         mProgressBar.setVisibility(View.INVISIBLE);
 
-        // Start Visually Impaired Activity
-        if(!mIsDoctor) {
-            Patient patient = (Patient)user;
-            if(patient.isVisuallyImpaired()) {
-                Intent intent = new Intent(getApplicationContext(), VisuallyImpairedActivity.class);
-                startActivity(intent);
-            }
+        // Redirect to Login Activity
+        if(mIsDoctor) {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            Toast.makeText(getApplicationContext(), getString(R.string.account_not_enabled),
+                    Toast.LENGTH_SHORT).show();
         }
-        // Start Main Activity
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        // Start Visually Impaired Activity
+        else if(mVisuallyImpairedCheckBox.isChecked()) {
+            Intent intent = new Intent(getApplicationContext(), VisuallyImpairedActivity.class);
+            startActivity(intent);
+        } else {
+            // Start Main Activity
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
     }
 
     // Uses shared preferences to remember user login info

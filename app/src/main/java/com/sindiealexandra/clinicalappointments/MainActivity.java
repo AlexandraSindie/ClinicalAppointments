@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
 
         // When user clicks the Reports Button
         mReportsButton.setOnClickListener(view -> {
-            Intent intent = new Intent(MainActivity.this, VisuallyImpairedActivity.class);
-            startActivity(intent);
         });
 
         // When user clicks the Users Button
