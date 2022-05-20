@@ -221,9 +221,10 @@ public class AccountActivity extends AppCompatActivity {
                 mPhoneEditText.setText(documentSnapshot.getString("phone"));
                 if(mSpecialization != null) {
                     mSpecializationEditText.setText(documentSnapshot.getString("specialization"));
+                } else {
+                    mIsVisuallyImpaired = documentSnapshot.getBoolean("visuallyImpaired");
+                    mVisuallyImpairedCheckBox.setChecked(mIsVisuallyImpaired);
                 }
-                mIsVisuallyImpaired = documentSnapshot.getBoolean("visuallyImpaired");
-                mVisuallyImpairedCheckBox.setChecked(mIsVisuallyImpaired);
                 mIsEnabled = Boolean.TRUE.equals(documentSnapshot.getBoolean("enabled"));
             }
 
