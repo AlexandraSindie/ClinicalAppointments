@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ClinicalAppointments">
         <activity
+            android:name=".ReportsActivity"
+            android:exported="false" />
+        <activity
             android:name=".VisuallyImpairedActivity"
             android:exported="false" />
         <activity
