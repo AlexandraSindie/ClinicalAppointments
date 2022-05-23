@@ -18,6 +18,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.DateValidatorPointForward;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
@@ -114,12 +116,17 @@ public class DoctorActivity extends AppCompatActivity {
 
         // Get appointment date and time;
         mMakeAppointmentButton.setOnClickListener(view -> {
+            CalendarConstraints.DateValidator dateValidator = DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
+            CalendarConstraints calendarConstraints = new CalendarConstraints.Builder()
+                    .setValidator(dateValidator).build();
             // Show date picker
             MaterialDatePicker<Long> datePicker =
                     MaterialDatePicker.Builder.datePicker()
+                            .setCalendarConstraints(calendarConstraints)
                             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                             .build();
             datePicker.show(getSupportFragmentManager(), "datePicker");
+
 
             // On date set
             datePicker.addOnPositiveButtonClickListener(dateSelection -> {

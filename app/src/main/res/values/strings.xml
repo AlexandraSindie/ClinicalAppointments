@@ -59,6 +59,17 @@
     <string name="visually_impaired_ophthalmology_message">When registering in the application you selected that you are visually impaired. In this case, we recommend a consultation with one of our specialist eye doctors.</string>
     <string name="visually_impaired_magnifier_message">To make it easier for you to use the app, just hold down on the texts you want to enlarge.</string>
     <string name="disable_magnifier_message">If you want to disable this setting, you can always do so from your preferences.</string>
-    <string name="Ophthalmology">Ophthalmology</string>
+    <string name="ophthalmology">Ophthalmology</string>
     <string name="redirect_to_main">Skip and go to main</string>
+    <string name="no_of_appointments">No. of appointments</string>
+    <string name="no_of_users">No. of users</string>
+    <string name="no_of_doctors">No. of doctors</string>
+    <string name="no_of_patients">No of. patients</string>
+    <string name="most_used_specialization">Most frequent</string>
+    <string name="dermatology">Dermatology</string>
+    <string name="neurology">Neurology</string>
+    <string name="pediatrics">Pediatrics</string>
+    <string name="plastic_surgery">Plastic Surgery</string>
+    <string name="psychiatry">Psychiatry</string>
+    <string name="appointment_modification_denied">You cannot change your appointment 24 hours in advance</string>
 </resources>

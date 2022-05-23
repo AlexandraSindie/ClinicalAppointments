@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_appointments.xml" value="0.12760416666666666" />
+        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_doctors.xml" value="0.25416666666666665" />
+        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_reports.xml" value="0.536" />
+        <entry key="..\:/Users/mihai.gavrila/AndroidStudioProjects/ClinicalAppointments/app/src/main/res/layout/activity_specializations.xml" value="0.16354166666666667" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>

@@ -20,6 +20,11 @@ public class SpecializationsActivity extends AppCompatActivity {
     private Button mCardiologyButton;
     private Button mSurgeryButton;
     private Button mOphthalmologyButton;
+    private Button mdDermatologyButton;
+    private Button mNeurologyButton;
+    private Button mPediatricsButton;
+    private Button mPlasticSurgeryButton;
+    private Button mPsychiatryButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +36,11 @@ public class SpecializationsActivity extends AppCompatActivity {
         mCardiologyButton = findViewById(R.id.cardiologyButton);
         mSurgeryButton = findViewById(R.id.surgeryButton);
         mOphthalmologyButton = findViewById(R.id.ophthalmologyButton);
+        mdDermatologyButton = findViewById(R.id.dermatologyButton);
+        mNeurologyButton = findViewById(R.id.neurologyButton);
+        mPediatricsButton = findViewById(R.id.pediatricsButton);
+        mPlasticSurgeryButton = findViewById(R.id.plasticSurgeryButton);
+        mPsychiatryButton = findViewById(R.id.psychiatryButton);
 
         // Configure Toolbar
         setSupportActionBar(mToolbar);
@@ -52,10 +62,45 @@ public class SpecializationsActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        // When user clicks the Ophthalmologist Button
+        // When user clicks the Ophthalmology Button
         mOphthalmologyButton.setOnClickListener(view -> {
             Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
             intent.putExtra("SPECIALIZATION","OPHTHALMOLOGY");
+            startActivity(intent);
+        });
+
+        // When user clicks the Dermatology Button
+        mdDermatologyButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
+            intent.putExtra("SPECIALIZATION","DERMATOLOGY");
+            startActivity(intent);
+        });
+
+        // When user clicks the Neurology Button
+        mNeurologyButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
+            intent.putExtra("SPECIALIZATION","NEUROLOGY");
+            startActivity(intent);
+        });
+
+        // When user clicks the Pediatrics Button
+        mPediatricsButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
+            intent.putExtra("SPECIALIZATION","PEDIATRICS");
+            startActivity(intent);
+        });
+
+        // When user clicks the Plastic Surgery Button
+        mPlasticSurgeryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
+            intent.putExtra("SPECIALIZATION","PLASTIC SURGERY");
+            startActivity(intent);
+        });
+
+        // When user clicks the Psychiatry Button
+        mPsychiatryButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SpecializationsActivity.this, DoctorsActivity.class);
+            intent.putExtra("SPECIALIZATION","PSYCHIATRY");
             startActivity(intent);
         });
     }

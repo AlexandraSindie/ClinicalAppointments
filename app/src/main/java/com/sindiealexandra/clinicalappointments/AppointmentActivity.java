@@ -24,13 +24,17 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.timepicker.MaterialTimePicker;
 import com.google.android.material.timepicker.TimeFormat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.sindiealexandra.clinicalappointments.models.Appointment;
@@ -225,14 +229,37 @@ public class AppointmentActivity extends AppCompatActivity {
         // Create new appointment
         assert firebaseUser != null;
 
-        mFirestore.collection("Appointments").document(mAppointmentID)
-                .update("date", date)
-                .addOnSuccessListener(aVoid -> {
-                    Log.d(TAG, "DocumentSnapshot successfully updated!");
-                    Toast.makeText(this, getString(R.string.appointment_edited), Toast.LENGTH_LONG).show();
+        // Check if later than 24 hours
+        DocumentReference docRef = mFirestore.collection("Appointments").document(mAppointmentID);
+        docRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    Date appointmentDate = document.getDate("date");
+                    Date currentTime = Calendar.getInstance().getTime();
+                    long diff =   appointmentDate.getTime() - currentTime.getTime();
+                    int hours = (int) (diff / (1000 * 60 * 60));
+                    Log.e(TAG, String.valueOf(hours));
+                    if(hours < 24) {
+                        Toast.makeText(this, getString(R.string.appointment_modification_denied),
+                                Toast.LENGTH_LONG).show();
+                    } else {
+                        mFirestore.collection("Appointments").document(mAppointmentID)
+                                .update("date", date)
+                                .addOnSuccessListener(aVoid -> {
+                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                    Toast.makeText(this, getString(R.string.appointment_edited), Toast.LENGTH_LONG).show();
 
-                })
-                .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
+                                })
+                                .addOnFailureListener(e -> Log.w(TAG, "Error updating document", e));
+                    }
+                } else {
+                    Log.d(TAG, "No such document");
+                }
+            } else {
+                Log.d(TAG, "get failed with ", task.getException());
+            }
+        });
 
         mProgressBar.setVisibility(View.INVISIBLE);
 
