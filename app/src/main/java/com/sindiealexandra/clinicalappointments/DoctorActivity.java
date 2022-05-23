@@ -118,7 +118,8 @@ public class DoctorActivity extends AppCompatActivity {
         mMakeAppointmentButton.setOnClickListener(view -> {
             CalendarConstraints.DateValidator dateValidator = DateValidatorPointForward.from(Calendar.getInstance().getTimeInMillis());
             CalendarConstraints calendarConstraints = new CalendarConstraints.Builder()
-                    .setValidator(dateValidator).build();
+                    .setValidator(dateValidator)
+                    .build();
             // Show date picker
             MaterialDatePicker<Long> datePicker =
                     MaterialDatePicker.Builder.datePicker()
